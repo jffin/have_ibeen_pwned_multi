@@ -61,7 +61,7 @@ func checkEmail(target string, apiKey string, client *client.RLHTTPClient, chann
 func readResponse(target string, response *http.Response) structs.Response {
 	var b bytes.Buffer
 	if _, err := io.Copy(&b, response.Body); err != nil {
-		panic(err)
+		errors.Check("reading response body", err)
 	}
 
 	var responseData []structs.ResponseData
