@@ -12,6 +12,10 @@ vet: fmt
 	go vet ./...
 .PHONY:vet
 
-build: vet
+test: vet
+	go test ./... -cover
+.PHONY: test
+
+build: test
 	go build -o bin/pwned-multi cmd/pwned-multi/main.go
 .PHONY:build
