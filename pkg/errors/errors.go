@@ -5,9 +5,11 @@ import (
 	"os"
 )
 
+var OsExit = os.Exit
+
 func Check(errorMessage string, err error) {
 	if err != nil {
 		fmt.Printf("Error happened during %s: %s\n", errorMessage, err)
-		os.Exit(1)
+		OsExit(1)
 	}
 }
