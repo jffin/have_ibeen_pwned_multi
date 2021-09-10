@@ -2,9 +2,9 @@ package files
 
 import (
 	"fmt"
+	"github.com/jffin/have_ibeen_pwned_multi/pkg/checker"
 	"github.com/jffin/have_ibeen_pwned_multi/pkg/constants"
 	"github.com/jffin/have_ibeen_pwned_multi/pkg/errors"
-	"github.com/jffin/have_ibeen_pwned_multi/pkg/structs"
 	"os"
 	"testing"
 )
@@ -41,8 +41,8 @@ func TestReadInputFile(t *testing.T) {
 }
 
 func TestWriteOutputFile(t *testing.T) {
-	var test_results []structs.Response = []structs.Response{
-		structs.Response{
+	var test_results []checker.Response = []checker.Response{
+		checker.Response{
 			Target: "email@me.com",
 			Data:   nil,
 		},

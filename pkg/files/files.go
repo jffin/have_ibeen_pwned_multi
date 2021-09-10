@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/jffin/have_ibeen_pwned_multi/pkg/checker"
 	"github.com/jffin/have_ibeen_pwned_multi/pkg/errors"
-	"github.com/jffin/have_ibeen_pwned_multi/pkg/structs"
 )
 
 func ReadInputFile(fileName string) []string {
@@ -18,7 +18,7 @@ func ReadInputFile(fileName string) []string {
 	return strings.Split(withRemovedLastEmptyLine, "\n")
 }
 
-func WriteOutputFile(fileName string, results []structs.Response) {
+func WriteOutputFile(fileName string, results []checker.Response) {
 	data, _ := json.Marshal(results)
 	err := os.WriteFile(fileName, data, 0644)
 	errors.Check("writing to output file", err)
