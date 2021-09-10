@@ -33,7 +33,7 @@ func getResults(channel chan structs.Response, resultsSize int) []structs.Respon
 	return results
 }
 
-func checkEmail(target string, apiKey string, client *client.RLHTTPClient, channel chan structs.Response) {
+func checkEmail(target, apiKey string, client *client.RLHTTPClient, channel chan structs.Response) {
 	endpoint := fmt.Sprintf("%s/%s?%s", constants.REQUEST_URL, url.QueryEscape(target), "truncateResponse=false")
 	request, err := http.NewRequest(constants.DEFAULT_REQUEST_METHOD, endpoint, nil)
 	errors.Check("new request constraining", err)
