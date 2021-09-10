@@ -173,5 +173,7 @@ modules.xml
 ### Custom ###
 bin/*
 files/*
+cover.txt
+cover.html
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,osx,linux,pycharm+all,go
