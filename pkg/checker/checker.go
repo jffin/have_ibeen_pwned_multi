@@ -9,8 +9,13 @@ import (
 	"net/url"
 
 	"github.com/jffin/have_ibeen_pwned_multi/pkg/client"
-	"github.com/jffin/have_ibeen_pwned_multi/pkg/constants"
 	"github.com/jffin/have_ibeen_pwned_multi/pkg/errors"
+)
+
+const (
+	REQUEST_URL            string = "https://haveibeenpwned.com/api/v3/breachedaccount"
+	DEFAULT_REQUEST_METHOD string = "GET"
+	DEFAULT_USER_AGENT     string = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0"
 )
 
 type ResponseData struct {
@@ -56,11 +61,11 @@ func getResults(channel chan Response, resultsSize int) []Response {
 }
 
 func checkEmail(target, apiKey string, client *client.RLHTTPClient, channel chan Response) {
-	endpoint := fmt.Sprintf("%s/%s?%s", constants.REQUEST_URL, url.QueryEscape(target), "truncateResponse=false")
-	request, err := http.NewRequest(constants.DEFAULT_REQUEST_METHOD, endpoint, nil)
+	endpoint := fmt.Sprintf("%s/%s?%s", REQUEST_URL, url.QueryEscape(target), "truncateResponse=false")
+	request, err := http.NewRequest(DEFAULT_REQUEST_METHOD, endpoint, nil)
 	errors.Check("new request constraining", err)
 
-	request.Header.Set("User-agent", constants.DEFAULT_USER_AGENT)
+	request.Header.Set("User-agent", DEFAULT_USER_AGENT)
 	request.Header.Set("hibp-api-key", apiKey)
 
 	response, err := client.Do(request)
