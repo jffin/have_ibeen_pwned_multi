@@ -29,8 +29,13 @@ func (c *RLHTTPClient) Do(req *http.Request) (*http.Response, error) {
 	return resp, nil
 }
 
+func CreateNewClient() *RLHTTPClient {
+	rateLimiter := rate.NewLimiter(rate.Every(1501*time.Millisecond), 1) // 1 request every 1500 milliseconds
+	return newClient(rateLimiter)
+}
+
 // NewClient return http client with a rateLimiter
-func NewClient(rl *rate.Limiter) *RLHTTPClient {
+func newClient(rl *rate.Limiter) *RLHTTPClient {
 	client := &http.Client{
 		Timeout: time.Second * 10,
 	}

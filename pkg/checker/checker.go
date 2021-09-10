@@ -14,7 +14,26 @@ import (
 	"github.com/jffin/have_ibeen_pwned_multi/pkg/structs"
 )
 
-func CheckEmail(target string, apiKey string, client *client.RLHTTPClient, channel chan structs.Response) {
+func StartCheck(targetsArray []string, apiKey string) []structs.Response {
+	client := client.CreateNewClient()
+
+	channel := make(chan structs.Response)
+	for _, target := range targetsArray {
+		go checkEmail(target, apiKey, client, channel)
+	}
+
+	return getResults(channel, len(targetsArray))
+}
+
+func getResults(channel chan structs.Response, resultsSize int) []structs.Response {
+	results := make([]structs.Response, resultsSize)
+	for index, _ := range results {
+		results[index] = <-channel
+	}
+	return results
+}
+
+func checkEmail(target string, apiKey string, client *client.RLHTTPClient, channel chan structs.Response) {
 	endpoint := fmt.Sprintf("%s/%s?%s", constants.REQUEST_URL, url.QueryEscape(target), "truncateResponse=false")
 	request, err := http.NewRequest(constants.DEFAULT_REQUEST_METHOD, endpoint, nil)
 	errors.Check("new request constraining", err)
