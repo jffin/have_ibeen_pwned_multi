@@ -37,8 +37,8 @@ type ResponseData struct {
 }
 
 type Response struct {
-	Target string
-	Data   []ResponseData
+	Target string `json:"title"`
+	Data   []ResponseData `json:"data"`
 }
 
 func StartCheck(targetsArray []string, apiKey string) []Response {
