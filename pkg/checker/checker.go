@@ -37,7 +37,7 @@ type ResponseData struct {
 }
 
 type Response struct {
-	Target string `json:"title"`
+	Target string         `json:"title"`
 	Data   []ResponseData `json:"data"`
 }
 
