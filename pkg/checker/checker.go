@@ -19,21 +19,21 @@ const (
 )
 
 type ResponseData struct {
-	Name         string
-	Title        string
-	Domain       string
-	BreachDate   string
-	AddedDate    string
-	ModifiedDate string
-	PwnCount     string
-	Description  string
-	LogoPath     string
-	DataClasses  []string
-	IsVerified   bool
-	IsFabricated bool
-	IsSensitive  bool
-	IsRetired    bool
-	IsSpamList   bool
+	Name         string   `json:"name"`
+	Title        string   `json:"title"`
+	Domain       string   `json:"domain"`
+	BreachDate   string   `json:"breach_date"`
+	AddedDate    string   `json:"added_date"`
+	ModifiedDate string   `json:"modified_date"`
+	PwnCount     string   `json:"pwn_count"`
+	Description  string   `json:"description"`
+	LogoPath     string   `json:"logo_path"`
+	DataClasses  []string `json:"data_classes"`
+	IsVerified   bool     `json:"is_verified"`
+	IsFabricated bool     `json:"is_fabricated"`
+	IsSensitive  bool     `json:"is_sensitive"`
+	IsRetired    bool     `json:"is_retired"`
+	IsSpamList   bool     `json:"is_spam_list"`
 }
 
 type Response struct {
