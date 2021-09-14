@@ -12,14 +12,17 @@ import (
 func ReadInputFile(fileName string) []string {
 	content, err := os.ReadFile(fileName)
 	errors.Check("reading input file", err)
-
-	var windowsSupportedString string = strings.ReplaceAll(string(content), "\r\n", "\n")
-	var withRemovedLastEmptyLine string = strings.TrimRight(windowsSupportedString, "\n")
-	return strings.Split(withRemovedLastEmptyLine, "\n")
+	return cleanupInputContent(content)
 }
 
 func WriteOutputFile(fileName string, results []checker.Response) {
 	data, _ := json.Marshal(results)
 	err := os.WriteFile(fileName, data, 0644)
 	errors.Check("writing to output file", err)
+}
+
+func cleanupInputContent(content []byte) []string {
+	var windowsSupportedString string = strings.ReplaceAll(string(content), "\r\n", "\n")
+	var withRemovedLastEmptyLine string = strings.TrimRight(windowsSupportedString, "\n")
+	return strings.Split(withRemovedLastEmptyLine, "\n")
 }

@@ -57,3 +57,13 @@ func TestWriteOutputFile(t *testing.T) {
 		t.Errorf("Expected output file does not found")
 	}
 }
+
+func TestCleanupInputContent(t *testing.T) {
+	inputFile := fmt.Sprintf("%s/%s", DEFAULT_FILES_PATH, args.INPUT_FILE_NAME)
+	content, _ := os.ReadFile(inputFile)
+
+	var output []string = cleanupInputContent(content)
+	if len(output) != EXPECTED_CONTENT_LENGTH {
+		t.Errorf("Expected output length: %d, got %d", EXPECTED_CONTENT_LENGTH, len(content))
+	}
+}
