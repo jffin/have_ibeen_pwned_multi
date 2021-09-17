@@ -10,7 +10,7 @@ func main() {
 
 	inputFile, outputFile, apiKey := args.InitArgs()
 
-	var targetsArray []string = files.ReadInputFile(*inputFile)
+	var targetsArray = files.ReadInputFile(*inputFile)
 	results := checker.StartCheck(targetsArray, *apiKey)
 	files.WriteOutputFile(*outputFile, results)
 }

@@ -6,8 +6,8 @@ import (
 )
 
 const (
-	EXPECTED_EXIT_CODE    int    = 1
-	DEFAULT_ERROR_MESSAGE string = "some error"
+	ExpectedExitCode    int    = 1
+	DefaultErrorMessage string = "some error"
 )
 
 func TestCheck(t *testing.T) {
@@ -22,9 +22,9 @@ func TestCheck(t *testing.T) {
 
 	OsExit = myExit
 
-	Check(DEFAULT_ERROR_MESSAGE, errors.New(DEFAULT_ERROR_MESSAGE))
+	Check(DefaultErrorMessage, errors.New(DefaultErrorMessage))
 
-	if exp := EXPECTED_EXIT_CODE; got != exp {
+	if exp := ExpectedExitCode; got != exp {
 		t.Errorf("Expected exit code: %d, got: %d", exp, got)
 	}
 

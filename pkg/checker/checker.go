@@ -13,9 +13,9 @@ import (
 )
 
 const (
-	REQUEST_URL            string = "https://haveibeenpwned.com/api/v3/breachedaccount"
-	DEFAULT_REQUEST_METHOD string = "GET"
-	DEFAULT_USER_AGENT     string = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0"
+	RequestUrl           string = "https://haveibeenpwned.com/api/v3/breachedaccount"
+	DefaultRequestMethod string = "GET"
+	DefaultUserAgent     string = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0"
 )
 
 type ResponseData struct {
@@ -42,11 +42,11 @@ type Response struct {
 }
 
 func StartCheck(targetsArray []string, apiKey string) []Response {
-	client := client.CreateNewClient()
+	newClient := client.CreateNewClient()
 
 	channel := make(chan Response)
 	for _, target := range targetsArray {
-		go checkEmail(target, apiKey, client, channel)
+		go checkEmail(target, apiKey, newClient, channel)
 	}
 
 	return getResults(channel, len(targetsArray))
@@ -54,24 +54,29 @@ func StartCheck(targetsArray []string, apiKey string) []Response {
 
 func getResults(channel chan Response, resultsSize int) []Response {
 	results := make([]Response, resultsSize)
-	for index, _ := range results {
+	for index := range results {
 		results[index] = <-channel
 	}
 	return results
 }
 
 func checkEmail(target, apiKey string, client *client.RLHTTPClient, channel chan Response) {
-	endpoint := fmt.Sprintf("%s/%s?%s", REQUEST_URL, url.QueryEscape(target), "truncateResponse=false")
-	request, err := http.NewRequest(DEFAULT_REQUEST_METHOD, endpoint, nil)
+	endpoint := fmt.Sprintf("%s/%s?%s", RequestUrl, url.QueryEscape(target), "truncateResponse=false")
+	request, err := http.NewRequest(DefaultRequestMethod, endpoint, nil)
 	errors.Check("new request constraining", err)
 
-	request.Header.Set("User-agent", DEFAULT_USER_AGENT)
+	request.Header.Set("User-agent", DefaultUserAgent)
 	request.Header.Set("hibp-api-key", apiKey)
 
 	response, err := client.Do(request)
 	errors.Check("request issuing", err)
 
-	defer response.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			errors.Check("Something happened while closing body", err)
+		}
+	}(response.Body)
 	channel <- readResponse(target, response)
 }
 
@@ -82,7 +87,9 @@ func readResponse(target string, response *http.Response) Response {
 	}
 
 	var responseData []ResponseData
-	json.Unmarshal([]byte(b.String()), &responseData)
+	if err := json.Unmarshal([]byte(b.String()), &responseData); err != nil {
+		return Response{}
+	}
 
 	return Response{Target: target, Data: responseData}
 }

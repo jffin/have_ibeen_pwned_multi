@@ -22,7 +22,7 @@ func WriteOutputFile(fileName string, results []checker.Response) {
 }
 
 func cleanupInputContent(content []byte) []string {
-	var windowsSupportedString string = strings.ReplaceAll(string(content), "\r\n", "\n")
-	var withRemovedLastEmptyLine string = strings.TrimRight(windowsSupportedString, "\n")
+	var windowsSupportedString = strings.ReplaceAll(string(content), "\r\n", "\n")
+	var withRemovedLastEmptyLine = strings.TrimRight(windowsSupportedString, "\n")
 	return strings.Split(withRemovedLastEmptyLine, "\n")
 }
