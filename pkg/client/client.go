@@ -14,7 +14,7 @@ type RLHTTPClient struct {
 	RateLimiter *rate.Limiter
 }
 
-// Do dispatches the HTTP request to the network
+// Do dispatch the HTTP request to the network
 func (c *RLHTTPClient) Do(req *http.Request) (*http.Response, error) {
 	// Comment out the below 5 lines to turn off rateLimiting
 	ctx := context.Background()

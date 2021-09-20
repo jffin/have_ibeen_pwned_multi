@@ -13,9 +13,8 @@ import (
 )
 
 const (
-	RequestUrl           string = "https://haveibeenpwned.com/api/v3/breachedaccount"
-	DefaultRequestMethod string = "GET"
-	DefaultUserAgent     string = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0"
+	RequestUrl       string = "https://haveibeenpwned.com/api/v3/breachedaccount"
+	DefaultUserAgent string = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0"
 )
 
 type ResponseData struct {
@@ -62,7 +61,7 @@ func getResults(channel chan Response, resultsSize int) []Response {
 
 func checkEmail(target, apiKey string, client *client.RLHTTPClient, channel chan Response) {
 	endpoint := fmt.Sprintf("%s/%s?%s", RequestUrl, url.QueryEscape(target), "truncateResponse=false")
-	request, err := http.NewRequest(DefaultRequestMethod, endpoint, nil)
+	request, err := http.NewRequest(http.MethodGet, endpoint, nil)
 	errors.Check("new request constraining", err)
 
 	request.Header.Set("User-agent", DefaultUserAgent)
